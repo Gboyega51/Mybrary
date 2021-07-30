@@ -18,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 //importing the  routers
 const indexRouter = require("./routes/index");
 const authorRouter = require("./routes/authors");
+const bookRouter = require("./routes/books");
 
 //connect to mongoodb
 mongoose.connect(process.env.DATABASE_URL, {
@@ -31,6 +32,7 @@ db.once("open", () => console.log("Connected to mongoose"));
 //hooking up the routes to the server
 app.use("/", indexRouter);
 app.use("/authors", authorRouter);
+app.use("/books", bookRouter);
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server running on port 3000...");
