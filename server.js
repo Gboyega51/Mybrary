@@ -12,9 +12,12 @@ app.set("views", __dirname + "/views");
 app.set("layout", "layouts/layout");
 app.use(expressLayouts);
 app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-//importing the index router
+//importing the  routers
 const indexRouter = require("./routes/index");
+const authorRouter = require("./routes/authors");
 
 //connect to mongoodb
 mongoose.connect(process.env.DATABASE_URL, {
@@ -25,8 +28,9 @@ const db = mongoose.connection;
 db.on("error", (error) => console.log(error));
 db.once("open", () => console.log("Connected to mongoose"));
 
-//hooking up the route to the server
+//hooking up the routes to the server
 app.use("/", indexRouter);
+app.use("/authors", authorRouter);
 
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server running on port 3000...");
